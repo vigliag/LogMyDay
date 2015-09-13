@@ -34,7 +34,7 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
         }
 
         is_text = (Switch) findViewById(R.id.is_text);
-        is_text.setChecked(f.field_type == Field.TEXT_RECORD);
+        is_text.setChecked(f.fieldType == Field.TEXT_RECORD);
 
         name = (EditText) findViewById(R.id.name);
         name.setText(f.name);
@@ -75,7 +75,7 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
      */
     @Override
     public void onClick(View v) {
-        f.field_type = is_text.isChecked() ? Field.TEXT_RECORD : Field.VALUE_RECORD;
+        f.fieldType = is_text.isChecked() ? Field.TEXT_RECORD : Field.VALUE_RECORD;
         f.maxvalue = Integer.parseInt(max_value.getText().toString());
         f.name = name.getText().toString();
         f.save();

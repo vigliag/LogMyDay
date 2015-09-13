@@ -17,7 +17,7 @@ public class Field extends SugarRecord<Field> {
     int weight;
     int minvalue;
     int maxvalue;
-    int field_type;
+    int fieldType;
 
     String color;
 
@@ -29,7 +29,7 @@ public class Field extends SugarRecord<Field> {
     public Field(){
         minvalue = 0;
         maxvalue = 10;
-        field_type = VALUE_RECORD;
+        fieldType = VALUE_RECORD;
     }
 
 }

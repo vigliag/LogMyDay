@@ -34,11 +34,11 @@ public class FieldController {
 
             View value = container.findViewWithTag(f.getId());
 
-            if(f.field_type == Field.TEXT_RECORD){
+            if(f.fieldType == Field.TEXT_RECORD){
                 EditText ed = (EditText) value;
                 r.setText(ed.getText().toString());
 
-            } else if(f.field_type == Field.VALUE_RECORD) {
+            } else if(f.fieldType == Field.VALUE_RECORD) {
                 DiscreteSeekBar dsb = (DiscreteSeekBar) value;
                 r.setValue(dsb.getProgress());
             }
@@ -61,7 +61,7 @@ public class FieldController {
             View value;
 
 
-            if(f.field_type == Field.TEXT_RECORD) {
+            if(f.fieldType == Field.TEXT_RECORD) {
                 EditText ed = new EditText(ctx);
                 ed.setText(r.getText());
                 value = ed;
