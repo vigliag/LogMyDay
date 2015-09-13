@@ -1,6 +1,5 @@
 package ovh.vii.logmyday;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,14 +13,14 @@ import android.widget.ListView;
 
 import java.util.List;
 
-public class FieldsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     public static final String FIELD_ID = "field_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fields);
+        setContentView(R.layout.activity_settings);
 
         populateListView();
     }
@@ -40,7 +39,7 @@ public class FieldsActivity extends AppCompatActivity {
         add_new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(FieldsActivity.this, FieldDetailActivity.class);
+                Intent i = new Intent(SettingsActivity.this, FieldDetailActivity.class);
                 startActivity(i);
             }
         });
@@ -55,7 +54,7 @@ public class FieldsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Field field = (Field) parent.getItemAtPosition(position);
-                Intent i = new Intent(FieldsActivity.this,
+                Intent i = new Intent(SettingsActivity.this,
                         FieldDetailActivity.class);
                 i.putExtra(FIELD_ID, field.getId());
                 startActivity(i);

@@ -3,10 +3,8 @@ package ovh.vii.logmyday;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, FieldsActivity.class);
+            Intent i = new Intent(this, SettingsActivity.class);
             startActivity(i);
             return true;
         }

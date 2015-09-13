@@ -28,7 +28,7 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_field_detail);
 
         Intent intent = getIntent();
-        long field_id = intent.getLongExtra(FieldsActivity.FIELD_ID, -1);
+        long field_id = intent.getLongExtra(SettingsActivity.FIELD_ID, -1);
 
         if(field_id == -1){
            f = new Field();
