@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.util.Map;
 
@@ -31,12 +32,15 @@ public class FieldController {
             Field f = entry.getKey();
             Record r = entry.getValue();
 
-            EditText value = (EditText) container.findViewWithTag(f.getId());
+            View value = container.findViewWithTag(f.getId());
 
-            if(f.istext){
-                r.setText(value.getText().toString());
-            } else {
-                r.setValue(Integer.parseInt(value.getText().toString()));
+            if(f.field_type == Field.TEXT_RECORD){
+                EditText ed = (EditText) value;
+                r.setText(ed.getText().toString());
+
+            } else if(f.field_type == Field.VALUE_RECORD) {
+                DiscreteSeekBar dsb = (DiscreteSeekBar) value;
+                r.setValue(dsb.getProgress());
             }
 
             r.save();
@@ -54,17 +58,22 @@ public class FieldController {
             name.setLayoutParams(lparams);
             container.addView(name);
 
-            EditText value = new EditText(ctx);
+            View value;
 
-            value.setTag(f.getId());
 
-            if(!f.istext) {
-                value.setText(String.valueOf(r.value));
-                value.setInputType(InputType.TYPE_CLASS_NUMBER);
+            if(f.field_type == Field.TEXT_RECORD) {
+                EditText ed = new EditText(ctx);
+                ed.setText(r.getText());
+                value = ed;
             } else {
-                value.setText(r.getText());
+                DiscreteSeekBar dsb = new DiscreteSeekBar(ctx);
+                dsb.setMax(f.maxvalue);
+                dsb.setMin(f.minvalue);
+                dsb.setProgress(r.getValue());
+                value = dsb;
             }
 
+            value.setTag(f.getId());
             value.setLayoutParams(lparams);
             container.addView(value);
         }

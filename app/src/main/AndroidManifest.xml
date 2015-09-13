@@ -20,6 +20,8 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="ovh.vii" />
+
+
         <activity
             android:name=".FieldsActivity"
             android:label="@string/title_activity_fields"
@@ -38,12 +40,15 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="LogMyDay" >
+            android:label="LogMyDay"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
     </application>
 
 </manifest>
