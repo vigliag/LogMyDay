@@ -43,4 +43,12 @@ public class Record extends SugarRecord<Record> {
     public void setText(String text) {
         this.text = text;
     }
+
+    public String toCSV(){
+        String t = text;
+        if(text != null){
+            t = text.replace('\n','.');
+        }
+        return day + ", " + f_id + ", " + value + ", " + t;
+    }
 }
