@@ -23,6 +23,16 @@ public class FieldsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fields);
 
+        populateListView();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        populateListView();
+    }
+
+    protected void populateListView(){
         List<Field> fields = Field.listAll(Field.class);
         ListView listView = (ListView) findViewById(R.id.listView);
 

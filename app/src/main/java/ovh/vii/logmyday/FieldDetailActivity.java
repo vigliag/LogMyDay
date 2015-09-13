@@ -1,6 +1,8 @@
 package ovh.vii.logmyday;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +18,7 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
     Switch is_text;
     EditText name;
     EditText max_value;
+    Button delete_button;
     Button save_button;
     Field f;
 
@@ -42,8 +45,15 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
         max_value = (EditText) findViewById(R.id.max_value);
         max_value.setText("" + f.maxvalue);
 
-        Button save_button = (Button) findViewById(R.id.save_button);
+        save_button = (Button) findViewById(R.id.save_button);
         save_button.setOnClickListener(this);
+
+        delete_button = (Button) findViewById(R.id.delete_button);
+        if(f.getId() != null){
+            delete_button.setEnabled(true);
+            delete_button.setOnClickListener(this);
+        }
+
     }
 
     @Override
@@ -75,10 +85,37 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
      */
     @Override
     public void onClick(View v) {
-        f.fieldType = is_text.isChecked() ? Field.TEXT_RECORD : Field.VALUE_RECORD;
-        f.maxvalue = Integer.parseInt(max_value.getText().toString());
-        f.name = name.getText().toString();
-        f.save();
-        Toast.makeText(this,"Field saved", Toast.LENGTH_LONG).show();
+
+        if(v.getId() == R.id.save_button){
+            f.fieldType = is_text.isChecked() ? Field.TEXT_RECORD : Field.VALUE_RECORD;
+            f.maxvalue = Integer.parseInt(max_value.getText().toString());
+            f.name = name.getText().toString();
+            f.save();
+            Toast.makeText(this,"Field saved", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+        if(v.getId() == R.id.delete_button){
+            new AlertDialog.Builder(FieldDetailActivity.this)
+                    .setTitle("Are you sure?")
+                    .setMessage("Deleting this field, all associated records will be deleted as well.")
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Record.deleteAll(Record.class, "fid = ?" , String.valueOf(f.getId()));
+                            f.delete();
+                            Toast.makeText(FieldDetailActivity.this, "Field and associated records deleted", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //pass
+                        }
+                    })
+                    .show();
+        }
+
     }
 }

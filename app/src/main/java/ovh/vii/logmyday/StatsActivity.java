@@ -100,7 +100,7 @@ public class StatsActivity extends AppCompatActivity {
             for (Record r : recordsOfField) {
                 entries.add(new Entry(r.getValue(), dateToIdx.get(r.getDay())));
             }
- 
+
             LineDataSet ds = new LineDataSet(entries, f.name);
             datasets.add(ds);
         }
