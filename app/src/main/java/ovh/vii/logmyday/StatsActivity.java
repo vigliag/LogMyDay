@@ -58,12 +58,13 @@ public class StatsActivity extends AppCompatActivity {
 
             //parse it as date
             Log.d("MI", "Oldest record is: " + minday);
-            Date oldestdate = Record.dateFormat.parse(minday);
 
+            if(minday != null){
+                Date oldestdate = Record.dateFormat.parse(minday);
+                oldestTime.setTime(oldestdate);
+            }
 
             //daysAgo = Days.daysBetween(new DateTime(oldestdate.getTime()), new DateTime()).getDays();
-
-            oldestTime.setTime(oldestdate);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -79,8 +80,8 @@ public class StatsActivity extends AppCompatActivity {
 
         int i=0;
         while((oldestTime.before(today))){
-            dateToIdx.put(Record.dateFormat.format(oldestTime), i);
-            labels.add(labelFormat.format(oldestTime));
+            dateToIdx.put(Record.dateFormat.format(oldestTime.getTime()), i);
+            labels.add(labelFormat.format(oldestTime.getTime()));
 
             i++;
             oldestTime.add(Calendar.DATE, 1);
@@ -94,12 +95,12 @@ public class StatsActivity extends AppCompatActivity {
             List<Entry> entries = new ArrayList<>();
 
             List<Record> recordsOfField = Record.findWithQuery(Record.class,
-                    "Select * from RECORD where f_id = ? order by day", String.valueOf(f.getId()));
+                    "Select * from RECORD where fid = ? order by day", String.valueOf(f.getId()));
 
             for (Record r : recordsOfField) {
                 entries.add(new Entry(r.getValue(), dateToIdx.get(r.getDay())));
             }
-
+ 
             LineDataSet ds = new LineDataSet(entries, f.name);
             datasets.add(ds);
         }
