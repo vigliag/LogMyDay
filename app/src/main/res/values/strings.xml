@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LogMyDay</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_fields">Defined Fields</string>
+    <string name="title_activity_field_detail">Field Details</string>
+    <string name="add_button_text">Add new</string>
+</resources>
