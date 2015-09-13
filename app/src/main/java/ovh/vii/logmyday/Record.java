@@ -13,19 +13,19 @@ public class Record extends SugarRecord<Record> {
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     long f_id;
-    String date;
+    String day;
     int value;
     String text;
 
     public Record() {
     }
 
-    public String getDate() {
-        return date;
+    public String getDay() {
+        return day;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDay(String date) {
+        this.day = date;
     }
 
     public int getValue() {

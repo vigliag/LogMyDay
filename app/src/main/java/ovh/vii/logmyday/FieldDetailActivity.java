@@ -79,6 +79,6 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
         f.maxvalue = Integer.parseInt(max_value.getText().toString());
         f.name = name.getText().toString();
         f.save();
-        Toast.makeText(this,"Field saved", Toast.LENGTH_LONG);
+        Toast.makeText(this,"Field saved", Toast.LENGTH_LONG).show();
     }
 }

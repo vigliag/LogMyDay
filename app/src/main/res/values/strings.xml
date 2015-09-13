@@ -4,4 +4,14 @@
     <string name="title_activity_fields">Defined Fields</string>
     <string name="title_activity_field_detail">Field Details</string>
     <string name="add_button_text">Add new</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

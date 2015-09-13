@@ -55,10 +55,15 @@ public class FieldController {
             container.addView(name);
 
             EditText value = new EditText(ctx);
+
             value.setTag(f.getId());
 
-            if(!f.istext)
+            if(!f.istext) {
+                value.setText(String.valueOf(r.value));
                 value.setInputType(InputType.TYPE_CLASS_NUMBER);
+            } else {
+                value.setText(r.getText());
+            }
 
             value.setLayoutParams(lparams);
             container.addView(value);

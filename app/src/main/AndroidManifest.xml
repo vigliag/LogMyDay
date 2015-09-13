@@ -3,24 +3,27 @@
     package="ovh.vii.logmyday" >
 
     <application
+        android:name="com.orm.SugarApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name="com.orm.SugarApp">
-        <activity
-            android:name=".DayActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="DATABASE"
+            android:value="log_my_day.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="2" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="ovh.vii" />
         <activity
             android:name=".FieldsActivity"
             android:label="@string/title_activity_fields"
-            android:parentActivityName=".DayActivity" >
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ovh.vii.logmyday.DayActivity" />
@@ -32,6 +35,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ovh.vii.logmyday.FieldsActivity" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="LogMyDay" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
