@@ -2,7 +2,6 @@ package ovh.vii.logmyday;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
@@ -24,6 +23,9 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import ovh.vii.logmyday.activities.FieldManagerActivity;
+import ovh.vii.logmyday.activities.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -107,8 +109,6 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Records exported in download folder", Toast.LENGTH_LONG).show();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,19 +139,6 @@ public class MainActivity extends AppCompatActivity {
             return NDAYS;
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
-                case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
-            }
-            return null;
-        }
     }
 
 }

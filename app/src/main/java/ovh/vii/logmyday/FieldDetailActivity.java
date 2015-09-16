@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import ovh.vii.logmyday.activities.FieldManagerActivity;
+
 public class FieldDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     Switch is_text;
@@ -28,7 +30,7 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_field_detail);
 
         Intent intent = getIntent();
-        long field_id = intent.getLongExtra(SettingsActivity.FIELD_ID, -1);
+        long field_id = intent.getLongExtra(FieldManagerActivity.FIELD_ID, -1);
 
         if(field_id == -1){
            f = new Field();

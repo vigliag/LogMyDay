@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <SwitchPreference
+        android:key="allow_scrolling_days"
+        android:title="@string/pref_allow_scrolling_days"
+        android:summary="@string/pref_allow_scrolling_days_summary"
+        android:defaultValue="false">
+    </SwitchPreference>
+
+
+    <Preference android:title="Manage Fields" >
+        <intent android:action="ovh.vii.logmyday.activities.FieldManagerActivity" />
+    </Preference>
+
+    <PreferenceCategory
+        android:title="@string/pref_notification_title"
+        android:key="pref_notification_settings">
+        <SwitchPreference
+            android:key="pref_send_notification"
+            android:summary="@string/pref_summary_send_notification"
+            android:title="@string/pref_title_send_notification"
+            android:defaultValue="false"/>
+        <SwitchPreference
+            android:key="pref_persistent_notification"
+            android:dependency="pref_send_notification"
+            android:summary="Use persistent notifications"
+            android:title="Use persistent notifications" />
+        <ovh.vii.logmyday.dialogs.TimePreference
+            android:key="pref_notification_time"
+            android:dependency="pref_send_notification"
+            android:summary="Time the reminder will be sent"
+            android:title="Reminder time"/>
+    </PreferenceCategory>
+</PreferenceScreen>

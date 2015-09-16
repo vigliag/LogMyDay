@@ -4,15 +4,10 @@
     <string name="title_activity_fields">Defined Fields</string>
     <string name="title_activity_field_detail">Field Details</string>
     <string name="add_button_text">Add new</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main">MainActivity</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_stats">StatsActivity</string>
+    <string name="pref_allow_scrolling_days">Allow scrolling back</string>
+    <string name="pref_allow_scrolling_days_summary">Allow scrolling back to previous days</string>
+    <string name="pref_notification_title">Reminders</string>
+    <string name="pref_title_send_notification">Remind me daily</string>
+    <string name="pref_summary_send_notification">Remind me to fill my data sending a reminder at the specified time</string>
+    <string name="title_activity_stats">Stats</string>
 </resources>

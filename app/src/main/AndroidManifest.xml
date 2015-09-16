@@ -24,20 +24,32 @@
             android:value="ovh.vii" />
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.FieldManagerActivity"
             android:label="Settings"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ovh.vii.logmyday.MainActivity" />
+            <intent-filter>
+                <action android:name="ovh.vii.logmyday.activities.FieldManagerActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".FieldDetailActivity"
             android:label="@string/title_activity_field_detail"
-            android:parentActivityName=".SettingsActivity" >
+            android:parentActivityName=".activities.FieldManagerActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+                android:value=".activities.FieldManagerActivity" />
+        </activity>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_fields"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"
