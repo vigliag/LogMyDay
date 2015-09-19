@@ -22,7 +22,7 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="ovh.vii" />
-
+        <service android:name=".services.ReminderService" android:label="LogMyDay reminder" />
         <activity
             android:name=".activities.FieldManagerActivity"
             android:label="Settings"

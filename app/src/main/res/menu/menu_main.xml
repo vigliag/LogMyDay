@@ -6,5 +6,5 @@
     <item android:id="@+id/action_stats" android:title="Stats" android:icon="@android:drawable/ic_menu_agenda"
         android:orderInCategory="100" app:showAsAction="ifRoom" />
     <item android:id="@+id/action_export" android:title="Export" android:icon="@android:drawable/ic_menu_save"
-        android:orderInCategory="100" app:showAsAction="ifRoom" />
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

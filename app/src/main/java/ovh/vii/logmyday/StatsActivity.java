@@ -12,14 +12,10 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.orm.Database;
 import com.orm.SugarApp;
-import com.orm.SugarDb;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -90,6 +86,10 @@ public class StatsActivity extends AppCompatActivity {
         //Create the list of entries for each dataset
         List<LineDataSet> datasets = new ArrayList<>();
 
+        //TODO let user specify color
+        //TODO use a larger set of colors
+        int colorIndex= 0;
+
         for (Field f: datafields) {
 
             List<Entry> entries = new ArrayList<>();
@@ -102,11 +102,20 @@ public class StatsActivity extends AppCompatActivity {
             }
 
             LineDataSet ds = new LineDataSet(entries, f.name);
+
+            //styling
+            ds.setCircleSize(5f);
+            ds.setColor(ColorTemplate.PASTEL_COLORS[colorIndex]);
+            ds.setCircleColor(ColorTemplate.PASTEL_COLORS[colorIndex]);
+            colorIndex = (colorIndex + 1) % ColorTemplate.PASTEL_COLORS.length;
+
             datasets.add(ds);
+
         }
 
         LineData ld = new LineData(labels, datasets);
         chart.setData(ld);
+
 
 
     }

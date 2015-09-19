@@ -9,9 +9,14 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.audiofx.BassBoost;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,10 +31,14 @@ import android.widget.Toast;
 
 import ovh.vii.logmyday.activities.FieldManagerActivity;
 import ovh.vii.logmyday.activities.SettingsActivity;
+import ovh.vii.logmyday.services.ReminderService;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int NDAYS = 10;
+    private int days_to_show = NDAYS;
+
+    private boolean pageHasToBeRefreshed = false;
 
     DayPagerAdapter mDayPagerAdapter;
     ViewPager mViewPager;
@@ -40,6 +49,39 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        cancelNotifications();
+
+        initPage();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        cancelNotifications();
+
+        if(pageHasToBeRefreshed){
+            initPage();
+        }
+    }
+
+    protected void cancelNotifications(){
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(ReminderService.NOTIFICATION_ID);
+    }
+
+    protected void initPage(){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean allow_scrolling = preferences.
+                getBoolean(SettingsFragment.KEY_PREF_ALLOW_SCROLLING_DAYS, false);
+
+        if(allow_scrolling){
+            days_to_show = NDAYS;
+        } else {
+            days_to_show = 1;
+        }
+
         today = GregorianCalendar.getInstance();
 
         // Create the adapter that will return a fragment for each of the three
@@ -49,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDayPagerAdapter);
-        mViewPager.setCurrentItem(NDAYS);
+        mViewPager.setCurrentItem(days_to_show);
+        pageHasToBeRefreshed = false;
     }
 
     @Override
@@ -65,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             Intent i = new Intent(this, SettingsActivity.class);
-            startActivity(i);
+            pageHasToBeRefreshed = true;
+            startActivityForResult(i, 1);
             return true;
         }
 
@@ -127,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             Calendar mCalendarDay = new GregorianCalendar().getInstance(today.getTimeZone());
             mCalendarDay.setTime(today.getTime());
-            mCalendarDay.add(GregorianCalendar.DATE, position - NDAYS +1);
+            mCalendarDay.add(GregorianCalendar.DATE, position - days_to_show +1);
 
             String day = Record.dateFormat.format(mCalendarDay.getTime());
 
@@ -136,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return NDAYS;
+            return days_to_show;
         }
 
     }

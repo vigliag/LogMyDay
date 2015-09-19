@@ -9,7 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by vigliag on 9/12/15.
@@ -49,7 +54,27 @@ public class FieldController {
 
     public void populateView(LinearLayout container) {
 
-        for (Map.Entry<Field, Record> entry : recordsToHandle.entrySet()) {
+        Set<Map.Entry<Field, Record>> entries = recordsToHandle.entrySet();
+
+        //reorder the fields such as text records are after value records
+        //and other fields are consistently ordered by ID;
+        List<Map.Entry<Field, Record>> entriesL = new ArrayList<>(entries);
+        Collections.sort(entriesL, new Comparator<Map.Entry<Field, Record>>() {
+            @Override
+            public int compare(Map.Entry<Field, Record> lhs, Map.Entry<Field, Record> rhs) {
+                if(lhs.getKey().fieldType == Field.TEXT_RECORD && rhs.getKey().fieldType == Field.VALUE_RECORD ){
+                    return 1;
+                }
+
+                if ( rhs.getKey().fieldType == Field.TEXT_RECORD && lhs.getKey().fieldType == Field.VALUE_RECORD ){
+                    return -1;
+                }
+
+                return (int) (lhs.getKey().getId() - rhs.getKey().getId());
+            }
+        });
+
+        for (Map.Entry<Field, Record> entry : entriesL ) {
             Field f = entry.getKey();
             Record r = entry.getValue();
 
