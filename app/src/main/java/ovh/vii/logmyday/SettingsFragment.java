@@ -80,7 +80,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 }
                 Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
                 calendar.setTime(date);   // assigns calendar to given date
-                int hours = calendar.get(Calendar.HOUR);
+                int hours = calendar.get(Calendar.HOUR_OF_DAY);
                 int minutes = calendar.get(Calendar.MINUTE);
 
                 scheduleReminder(hours,minutes);
