@@ -20,18 +20,19 @@ import java.util.List;
 public class FileSerialization {
 
     public static void exportToFile(){
+
+        Database db = new Database();
+
         File path = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS);
         String curdate = Record.dateFormat.format(GregorianCalendar.getInstance().getTime());
         File file = new File(path, "ExportedRecords " + curdate +".json");
 
-
-
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            List<Record> records = Record.listAll(Record.class);
 
-            List<Field> fields = Field.listAll(Field.class);
+            List<Record> records = db.listRecords();
+            List<Field> fields = db.listFields();
 
             JSONArray fieldJsonArray = new JSONArray();
             for(Field f : fields){

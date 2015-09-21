@@ -1,10 +1,7 @@
 package ovh.vii.logmyday;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,63 +10,33 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.orm.Database;
-import com.orm.SugarApp;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ovh.vii.logmyday.data.Database;
 import ovh.vii.logmyday.data.Field;
 import ovh.vii.logmyday.data.Record;
 
 public class StatsActivity extends AppCompatActivity {
-    public static final SimpleDateFormat labelFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat labelFormat = new SimpleDateFormat("MM/dd");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
+        Database db = new Database();
         LineChart chart = (LineChart) findViewById(R.id.chart);
-        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
 
-        //TODO use manual joins, as SugarORM doesn't support them
-        List<Field> datafields = Field.find(Field.class, "field_type = ?", String.valueOf(Field.VALUE_RECORD));
+        List<Field> datafields = db.listFieldsContainingValues();
 
-        Database sugardb = ((Application) SugarApp.getSugarContext()).obtainDatabase();
-        SQLiteDatabase db = sugardb.getDB();
-
-        //int daysAgo = 0;
-        Calendar oldestTime = GregorianCalendar.getInstance();
-
-        try {
-            //get the minimum day as string
-            Cursor mindayresult = db.rawQuery("Select MIN(day) as day from RECORD", null);
-            mindayresult.moveToFirst();
-            String minday = mindayresult.getString(0);
-
-            //parse it as date
-            Log.d("MI", "Oldest record is: " + minday);
-
-            if(minday != null){
-                Date oldestdate = Record.dateFormat.parse(minday);
-                oldestTime.setTime(oldestdate);
-            }
-
-            //daysAgo = Days.daysBetween(new DateTime(oldestdate.getTime()), new DateTime()).getDays();
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        //Log.d("MI", "Oldest record is " + daysAgo + " days old");
+        Calendar oldestTime = db.getOldestRecordDate();
 
         Calendar today = GregorianCalendar.getInstance();
 
@@ -97,8 +64,8 @@ public class StatsActivity extends AppCompatActivity {
 
             List<Entry> entries = new ArrayList<>();
 
-            List<Record> recordsOfField = Record.findWithQuery(Record.class,
-                    "Select * from RECORD where fid = ? order by day", String.valueOf(f.getId()));
+            List<Record> recordsOfField = db.listRecordsForField(f);
+
 
             for (Record r : recordsOfField) {
                 entries.add(new Entry(r.getValue(), dateToIdx.get(r.getDay())));

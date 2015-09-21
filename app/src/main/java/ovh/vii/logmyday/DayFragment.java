@@ -14,17 +14,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ovh.vii.logmyday.data.Database;
 import ovh.vii.logmyday.data.Field;
 import ovh.vii.logmyday.data.Record;
 
-
+/**
+ * Shows the records for a given day passed as param
+ * handles modifying and saving groups of records
+ * the actual logic of creating and handling the views for every record is delegated to the FieldController
+ */
 public class DayFragment extends Fragment implements View.OnClickListener {
     private static final String DAY_PARAM = "param1";
 
     private String day;
-    List<Field> fieldList;
-    FieldController FC;
-    Button save;
+    private FieldController FC;
+    private Button save;
+    private Database db;
+
+    public DayFragment() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -41,9 +50,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
-    public DayFragment() {
-        // Required empty public constructor
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         if (getArguments() != null) {
             day = getArguments().getString(DAY_PARAM);
         }
+        db = new Database();
     }
 
     @Override
@@ -63,35 +71,17 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         TextView dayDisplay = (TextView) layout.findViewById(R.id.day);
         dayDisplay.setText("Day " + day);
 
-        fieldList = Field.listAll(Field.class);
-        List<Record> recordList = Record.find(Record.class, "day = ?", day);  //Record.listAll(Record.class); //
-
-        //index records by field_id
-        Map<Long, Record> recordByField = new HashMap<>();
-        for (Record r : recordList){
-            recordByField.put(r.getF_id(), r);
-        }
-
-        //in memory join
-        Map<Field, Record> recordsToHandle = new HashMap<>();
-        for (Field f: fieldList) {
-            Record r = recordByField.get(f.getId());
-            if(r == null){
-                r = new Record();
-                r.setDay(day);
-                r.setF_id(f.getId());
-            }
-            recordsToHandle.put(f,r);
-        }
+        Map<Field, Record> recordsToHandle = db.recordsPerFieldForDay(day);
 
         LinearLayout fieldsContainer = (LinearLayout) layout.findViewById(R.id.container);
+
         FC = new FieldController(recordsToHandle, fieldsContainer, getActivity());
         FC.populateView(fieldsContainer);
+
         save =  (Button) layout.findViewById(R.id.save_button);
         save.setOnClickListener(this);
 
         return layout;
-
     }
 
     /**

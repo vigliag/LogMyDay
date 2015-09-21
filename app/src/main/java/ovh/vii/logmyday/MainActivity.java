@@ -1,19 +1,13 @@
 package ovh.vii.logmyday;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AlertDialog;
@@ -27,12 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import ovh.vii.logmyday.activities.FieldManagerActivity;
 import ovh.vii.logmyday.activities.SettingsActivity;
-import ovh.vii.logmyday.data.Field;
+import ovh.vii.logmyday.data.Database;
 import ovh.vii.logmyday.data.FileSerialization;
 import ovh.vii.logmyday.data.Record;
 import ovh.vii.logmyday.services.ReminderService;
@@ -53,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Display help dialog if there's no field defined
+        Database db = new Database();
+        long fieldCount = db.fieldCount();
+
+        if(fieldCount == 0){
+            displayHelpDialog();
+        }
+
         cancelNotifications();
 
         initPage();
@@ -66,6 +65,20 @@ public class MainActivity extends AppCompatActivity {
         if(pageHasToBeRefreshed){
             initPage();
         }
+    }
+
+    protected void displayHelpDialog(){
+        new AlertDialog.Builder(this)
+                .setTitle("There's no data. Let's define some")
+                .setMessage("You should define some field to shape your daily log. Once added you'll be able to add records")
+                .setPositiveButton("Ok, let's do that", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(MainActivity.this, FieldManagerActivity.class);
+                        startActivity(i);
+                    }
+                })
+                .show();
     }
 
     protected void cancelNotifications(){

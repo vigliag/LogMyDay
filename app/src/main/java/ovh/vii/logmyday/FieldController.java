@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ovh.vii.logmyday.data.Database;
 import ovh.vii.logmyday.data.Field;
 import ovh.vii.logmyday.data.Record;
 
@@ -26,11 +27,13 @@ public class FieldController {
     private final LinearLayout container;
     private Map<Field, Record> recordsToHandle;
     private static final LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    private Database db;
 
     public FieldController(Map<Field, Record> recordsToHandle, LinearLayout container, Context ctx) {
         this.recordsToHandle = recordsToHandle;
         this.ctx = ctx;
         this.container = container;
+        db = new Database();
     }
 
     public void saveAll() {
@@ -49,7 +52,7 @@ public class FieldController {
                 r.setValue(dsb.getProgress());
             }
 
-            r.save();
+            db.saveRecord(r);
         }
     }
 

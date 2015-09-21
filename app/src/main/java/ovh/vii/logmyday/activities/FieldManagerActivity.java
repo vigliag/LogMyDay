@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import ovh.vii.logmyday.data.Database;
 import ovh.vii.logmyday.data.Field;
 import ovh.vii.logmyday.FieldDetailActivity;
 import ovh.vii.logmyday.R;
@@ -20,6 +21,7 @@ import ovh.vii.logmyday.R;
 public class FieldManagerActivity extends AppCompatActivity {
 
     public static final String FIELD_ID = "field_id";
+    Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,8 @@ public class FieldManagerActivity extends AppCompatActivity {
     }
 
     protected void populateListView(){
-        List<Field> fields = Field.listAll(Field.class);
+
+        List<Field> fields = db.listFields();
         ListView listView = (ListView) findViewById(R.id.listView);
 
         Button add_new_button = (Button) findViewById(R.id.add_new_button);

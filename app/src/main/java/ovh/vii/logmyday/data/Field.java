@@ -21,7 +21,6 @@ public class Field extends SugarRecord<Field> {
     private int minvalue;
     private int maxvalue;
     private int fieldType;
-
     private String color;
 
     @Override

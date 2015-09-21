@@ -14,6 +14,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import ovh.vii.logmyday.activities.FieldManagerActivity;
+import ovh.vii.logmyday.data.Database;
 import ovh.vii.logmyday.data.Field;
 import ovh.vii.logmyday.data.Record;
 
@@ -25,10 +26,13 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
     Button delete_button;
     Button save_button;
     Field f;
+    Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = new Database();
+
         setContentView(R.layout.activity_field_detail);
 
         Intent intent = getIntent();
@@ -37,7 +41,7 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
         if(field_id == -1){
            f = new Field();
         } else {
-           f = Field.findById(Field.class, field_id);
+           f = db.getFieldById(field_id);
         }
 
         is_text = (Switch) findViewById(R.id.is_text);
@@ -91,10 +95,13 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
 
         if(v.getId() == R.id.save_button){
+
             f.setFieldType(is_text.isChecked() ? Field.TEXT_RECORD : Field.VALUE_RECORD);
             f.setMaxvalue(Integer.parseInt(max_value.getText().toString()));
             f.setName(name.getText().toString());
-            f.save();
+
+            db.saveField(f);
+
             Toast.makeText(this,"Field saved", Toast.LENGTH_LONG).show();
             finish();
         }
@@ -106,8 +113,8 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Record.deleteAll(Record.class, "fid = ?", String.valueOf(f.getId()));
-                            f.delete();
+
+                            db.deleteFieldWithRecords(f);
                             Toast.makeText(FieldDetailActivity.this, "Field and associated records deleted", Toast.LENGTH_LONG).show();
                             finish();
                         }
