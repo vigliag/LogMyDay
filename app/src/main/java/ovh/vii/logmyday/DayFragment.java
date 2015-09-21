@@ -1,7 +1,5 @@
 package ovh.vii.logmyday;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +13,9 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ovh.vii.logmyday.data.Field;
+import ovh.vii.logmyday.data.Record;
 
 
 public class DayFragment extends Fragment implements View.OnClickListener {
@@ -68,7 +69,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         //index records by field_id
         Map<Long, Record> recordByField = new HashMap<>();
         for (Record r : recordList){
-            recordByField.put(r.f_id, r);
+            recordByField.put(r.getF_id(), r);
         }
 
         //in memory join
@@ -77,8 +78,8 @@ public class DayFragment extends Fragment implements View.OnClickListener {
             Record r = recordByField.get(f.getId());
             if(r == null){
                 r = new Record();
-                r.day = day;
-                r.f_id = f.getId();
+                r.setDay(day);
+                r.setF_id(f.getId());
             }
             recordsToHandle.put(f,r);
         }

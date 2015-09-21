@@ -26,6 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ovh.vii.logmyday.data.Field;
+import ovh.vii.logmyday.data.Record;
+
 public class StatsActivity extends AppCompatActivity {
     public static final SimpleDateFormat labelFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -101,7 +104,7 @@ public class StatsActivity extends AppCompatActivity {
                 entries.add(new Entry(r.getValue(), dateToIdx.get(r.getDay())));
             }
 
-            LineDataSet ds = new LineDataSet(entries, f.name);
+            LineDataSet ds = new LineDataSet(entries, f.getName());
 
             //styling
             ds.setCircleSize(5f);

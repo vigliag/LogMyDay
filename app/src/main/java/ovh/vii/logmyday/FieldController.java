@@ -1,9 +1,7 @@
 package ovh.vii.logmyday;
 
 import android.content.Context;
-import android.text.InputType;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +13,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import ovh.vii.logmyday.data.Field;
+import ovh.vii.logmyday.data.Record;
 
 /**
  * Created by vigliag on 9/12/15.
@@ -39,11 +40,11 @@ public class FieldController {
 
             View value = container.findViewWithTag(f.getId());
 
-            if(f.fieldType == Field.TEXT_RECORD){
+            if(f.getFieldType() == Field.TEXT_RECORD){
                 EditText ed = (EditText) value;
                 r.setText(ed.getText().toString());
 
-            } else if(f.fieldType == Field.VALUE_RECORD) {
+            } else if(f.getFieldType() == Field.VALUE_RECORD) {
                 DiscreteSeekBar dsb = (DiscreteSeekBar) value;
                 r.setValue(dsb.getProgress());
             }
@@ -62,11 +63,11 @@ public class FieldController {
         Collections.sort(entriesL, new Comparator<Map.Entry<Field, Record>>() {
             @Override
             public int compare(Map.Entry<Field, Record> lhs, Map.Entry<Field, Record> rhs) {
-                if(lhs.getKey().fieldType == Field.TEXT_RECORD && rhs.getKey().fieldType == Field.VALUE_RECORD ){
+                if(lhs.getKey().getFieldType() == Field.TEXT_RECORD && rhs.getKey().getFieldType() == Field.VALUE_RECORD ){
                     return 1;
                 }
 
-                if ( rhs.getKey().fieldType == Field.TEXT_RECORD && lhs.getKey().fieldType == Field.VALUE_RECORD ){
+                if ( rhs.getKey().getFieldType() == Field.TEXT_RECORD && lhs.getKey().getFieldType() == Field.VALUE_RECORD ){
                     return -1;
                 }
 
@@ -79,21 +80,21 @@ public class FieldController {
             Record r = entry.getValue();
 
             TextView name = new TextView(ctx);
-            name.setText(f.name);
+            name.setText(f.getName());
             name.setLayoutParams(lparams);
             container.addView(name);
 
             View value;
 
 
-            if(f.fieldType == Field.TEXT_RECORD) {
+            if(f.getFieldType() == Field.TEXT_RECORD) {
                 EditText ed = new EditText(ctx);
                 ed.setText(r.getText());
                 value = ed;
             } else {
                 DiscreteSeekBar dsb = new DiscreteSeekBar(ctx);
-                dsb.setMax(f.maxvalue);
-                dsb.setMin(f.minvalue);
+                dsb.setMax(f.getMaxvalue());
+                dsb.setMin(f.getMinvalue());
                 dsb.setProgress(r.getValue());
                 value = dsb;
             }

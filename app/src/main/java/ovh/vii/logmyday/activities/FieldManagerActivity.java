@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import ovh.vii.logmyday.Field;
+import ovh.vii.logmyday.data.Field;
 import ovh.vii.logmyday.FieldDetailActivity;
 import ovh.vii.logmyday.R;
 

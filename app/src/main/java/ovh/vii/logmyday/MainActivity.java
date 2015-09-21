@@ -7,14 +7,12 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.audiofx.BassBoost;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -29,8 +27,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import ovh.vii.logmyday.activities.FieldManagerActivity;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import ovh.vii.logmyday.activities.SettingsActivity;
+import ovh.vii.logmyday.data.Field;
+import ovh.vii.logmyday.data.FileSerialization;
+import ovh.vii.logmyday.data.Record;
 import ovh.vii.logmyday.services.ReminderService;
 
 public class MainActivity extends AppCompatActivity {
@@ -126,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            exportToFile();
+                            FileSerialization.exportToFile();
+                            Toast.makeText(MainActivity.this, "Records exported in download folder", Toast.LENGTH_LONG).show();
                         }
                     })
                     .show();
@@ -135,28 +140,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void exportToFile(){
-        File path = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS);
-        String curdate = Record.dateFormat.format(GregorianCalendar.getInstance().getTime());
-        File file = new File(path, "ExportedRecords " + curdate +".csv");
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            List<Record> records = Record.listAll(Record.class);
-
-            for(Record record: records){
-                writer.write(record.toCSV() + "\n");
-            }
-
-            writer.close();
-
-            Toast.makeText(this, "Records exported in download folder", Toast.LENGTH_LONG).show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.

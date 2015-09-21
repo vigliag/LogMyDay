@@ -14,6 +14,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import ovh.vii.logmyday.activities.FieldManagerActivity;
+import ovh.vii.logmyday.data.Field;
+import ovh.vii.logmyday.data.Record;
 
 public class FieldDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,13 +41,13 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
         }
 
         is_text = (Switch) findViewById(R.id.is_text);
-        is_text.setChecked(f.fieldType == Field.TEXT_RECORD);
+        is_text.setChecked(f.getFieldType() == Field.TEXT_RECORD);
 
         name = (EditText) findViewById(R.id.name);
-        name.setText(f.name);
+        name.setText(f.getName());
 
         max_value = (EditText) findViewById(R.id.max_value);
-        max_value.setText("" + f.maxvalue);
+        max_value.setText("" + f.getMaxvalue());
 
         save_button = (Button) findViewById(R.id.save_button);
         save_button.setOnClickListener(this);
@@ -89,9 +91,9 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
 
         if(v.getId() == R.id.save_button){
-            f.fieldType = is_text.isChecked() ? Field.TEXT_RECORD : Field.VALUE_RECORD;
-            f.maxvalue = Integer.parseInt(max_value.getText().toString());
-            f.name = name.getText().toString();
+            f.setFieldType(is_text.isChecked() ? Field.TEXT_RECORD : Field.VALUE_RECORD);
+            f.setMaxvalue(Integer.parseInt(max_value.getText().toString()));
+            f.setName(name.getText().toString());
             f.save();
             Toast.makeText(this,"Field saved", Toast.LENGTH_LONG).show();
             finish();
@@ -104,7 +106,7 @@ public class FieldDetailActivity extends AppCompatActivity implements View.OnCli
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Record.deleteAll(Record.class, "fid = ?" , String.valueOf(f.getId()));
+                            Record.deleteAll(Record.class, "fid = ?", String.valueOf(f.getId()));
                             f.delete();
                             Toast.makeText(FieldDetailActivity.this, "Field and associated records deleted", Toast.LENGTH_LONG).show();
                             finish();
