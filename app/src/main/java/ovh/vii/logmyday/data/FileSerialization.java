@@ -1,7 +1,10 @@
 package ovh.vii.logmyday.data;
 
+import android.database.Cursor;
 import android.os.Environment;
 import android.widget.Toast;
+
+import com.opencsv.CSVWriter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +14,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -19,7 +23,37 @@ import java.util.List;
  */
 public class FileSerialization {
 
-    public static void exportToFile() throws IOException {
+    public static void exportCSVToFile() throws IOException {
+        Database db = new Database();
+
+        File path = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS);
+        String curdate = Record.dateFormat.format(GregorianCalendar.getInstance().getTime());
+
+        File file = new File(path, "ExportedRecords " + curdate +".csv");
+        CSVWriter writer = new CSVWriter(new FileWriter(file));
+
+        Cursor records = db.getCompleteRecords();
+        records.moveToFirst();
+
+        while (records.moveToNext()) {
+
+            //r.day, f.name, r.value, r.text
+            String[] row = {
+                    records.getString(0),
+                    records.getString(1),
+                    String.valueOf(records.getInt(2)),
+                    records.getString(3)
+            };
+            writer.writeNext(row);
+        }
+
+        records.close();
+        writer.close();
+
+    }
+
+    public static void exportJsonToFile() throws IOException {
 
         Database db = new Database();
 

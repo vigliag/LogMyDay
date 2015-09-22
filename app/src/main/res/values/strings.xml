@@ -14,9 +14,12 @@
     <string name="title_activity_help">Help and About</string>
     <string name="about_text">
         Developed by Gabriele Viglianisi. Please report any problem to vigliag@gmail.com. Source code available at https://github.com/vigliag/LogMyDay
+        \nDisclaimer: this application is still in beta status, and as result, data losses might happen. Please use the export function often.
     </string>
     <string name="usage_text">
-        This app allows you to associate some data and notes to each day. This data can then be exported in the json format. Some statistics can be seen in the Stats page
+        This app allows you to associate some data and notes to each day. This data can then be exported in the csv format. Some statistics can be seen in the Stats page.
+        \nAs an example you could define a Text Field "Diary", and a Value Field mood.
+        \nI\'d advice keeping a low number of fields, with a limited range of values (eg. 0 to 5) if it\'s a rate.
     </string>
     <string name="help_text">
         The main page displays the data for a given day, with an editable field for every Field defined in the preferences.

@@ -83,6 +83,16 @@ public class Database {
         return Field.find(Field.class, "field_type = ?", String.valueOf(Field.VALUE_RECORD));
     }
 
+    /**
+     * Returns r.day, f.name, r.value, r.text
+     * @return the cursor
+     */
+    public Cursor getCompleteRecords(){
+        return db.rawQuery("SELECT r.day, f.name, r.value, r.text " +
+                "FROM Record r JOIN Field f on r.fid = f.id " +
+                "ORDER BY r.day, f.name", null);
+    }
+
     public Calendar getOldestRecordDate(){
         Calendar oldestTime = GregorianCalendar.getInstance();
 

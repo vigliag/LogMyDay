@@ -76,11 +76,11 @@ public class FieldController {
             @Override
             public int compare(Map.Entry<Field, Record> lhs, Map.Entry<Field, Record> rhs) {
                 if(lhs.getKey().getFieldType() == Field.TEXT_RECORD && rhs.getKey().getFieldType() == Field.VALUE_RECORD ){
-                    return 1;
+                    return -1;
                 }
 
                 if ( rhs.getKey().getFieldType() == Field.TEXT_RECORD && lhs.getKey().getFieldType() == Field.VALUE_RECORD ){
-                    return -1;
+                    return 1;
                 }
 
                 return (int) (lhs.getKey().getId() - rhs.getKey().getId());

@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             try {
-                                FileSerialization.exportToFile();
+                                FileSerialization.exportCSVToFile();
                                 Toast.makeText(MainActivity.this, "Records exported in download folder", Toast.LENGTH_LONG).show();
                             } catch (IOException e) {
                                 Toast.makeText(MainActivity.this, "Something went wrong exporting the records", Toast.LENGTH_LONG).show();
