@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".DayActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings" android:icon="@android:drawable/ic_menu_preferences"
-        android:orderInCategory="100" app:showAsAction="ifRoom" />
+        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_stats" android:title="Stats" android:icon="@android:drawable/ic_menu_agenda"
         android:orderInCategory="100" app:showAsAction="ifRoom" />
     <item android:id="@+id/action_export" android:title="Export" android:icon="@android:drawable/ic_menu_save"

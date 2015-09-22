@@ -1,7 +1,10 @@
 package ovh.vii.logmyday;
 
 import android.content.Context;
+import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +20,7 @@ import java.util.Set;
 import ovh.vii.logmyday.data.Database;
 import ovh.vii.logmyday.data.Field;
 import ovh.vii.logmyday.data.Record;
+import ovh.vii.logmyday.views.ValueFieldView;
 
 /**
  * Created by vigliag on 9/12/15.
@@ -45,11 +49,16 @@ public class FieldController {
 
             if(f.getFieldType() == Field.TEXT_RECORD){
                 EditText ed = (EditText) value;
+
+                ed.setInputType(InputType.TYPE_CLASS_TEXT |
+                        InputType.TYPE_TEXT_FLAG_CAP_SENTENCES |
+                        InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+
                 r.setText(ed.getText().toString());
 
             } else if(f.getFieldType() == Field.VALUE_RECORD) {
-                DiscreteSeekBar dsb = (DiscreteSeekBar) value;
-                r.setValue(dsb.getProgress());
+                ValueFieldView vfw = (ValueFieldView) value;
+                r.setValue(vfw.getValue());
             }
 
             db.saveRecord(r);
@@ -78,6 +87,8 @@ public class FieldController {
             }
         });
 
+
+        //Actual render logic
         for (Map.Entry<Field, Record> entry : entriesL ) {
             Field f = entry.getKey();
             Record r = entry.getValue();
@@ -91,15 +102,15 @@ public class FieldController {
 
 
             if(f.getFieldType() == Field.TEXT_RECORD) {
+
                 EditText ed = new EditText(ctx);
                 ed.setText(r.getText());
                 value = ed;
             } else {
-                DiscreteSeekBar dsb = new DiscreteSeekBar(ctx);
-                dsb.setMax(f.getMaxvalue());
-                dsb.setMin(f.getMinvalue());
-                dsb.setProgress(r.getValue());
-                value = dsb;
+
+                ValueFieldView vfw = new ValueFieldView(ctx, f);
+                vfw.setValue(r.getValue());
+                value = vfw;
             }
 
             value.setTag(f.getId());
