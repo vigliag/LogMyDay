@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class FileSerialization {
 
-    public static void exportToFile(){
+    public static void exportToFile() throws IOException {
 
         Database db = new Database();
 
@@ -54,6 +54,7 @@ public class FileSerialization {
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
+            throw new IOException(e);
         }
     }
 }

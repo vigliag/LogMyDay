@@ -22,7 +22,11 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="ovh.vii.logmyday.data" />
-        <service android:name=".services.ReminderService" android:label="LogMyDay reminder" />
+
+        <service
+            android:name=".services.ReminderService"
+            android:label="LogMyDay reminder" />
+
         <activity
             android:name=".activities.FieldManagerActivity"
             android:label="Settings"
@@ -30,8 +34,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ovh.vii.logmyday.MainActivity" />
+
             <intent-filter>
                 <action android:name="ovh.vii.logmyday.activities.FieldManagerActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -53,7 +59,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="LogMyDay"
+            android:label="@string/main_activity_label"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,6 +70,14 @@
         <activity
             android:name=".StatsActivity"
             android:label="@string/title_activity_stats"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ovh.vii.logmyday.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.HelpActivity"
+            android:label="@string/title_activity_help"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

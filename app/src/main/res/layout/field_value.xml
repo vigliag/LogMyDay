@@ -10,11 +10,13 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Value"
         android:id="@+id/valueText"
+        android:saveEnabled="false"
         android:textIsSelectable="true" />
 
     <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:saveEnabled="false"
         android:id="@+id/seekBar"/>
 
 </merge>

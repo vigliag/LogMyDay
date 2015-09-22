@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LogMyDay</string>
+    <string name="app_name">Log My Day</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_fields">Defined Fields</string>
     <string name="title_activity_field_detail">Field Details</string>
@@ -10,4 +10,16 @@
     <string name="pref_title_send_notification">Remind me daily</string>
     <string name="pref_summary_send_notification">Remind me to fill my data sending a reminder at the specified time</string>
     <string name="title_activity_stats">Stats</string>
+    <string name="main_activity_label">Daily Log</string>
+    <string name="title_activity_help">Help and About</string>
+    <string name="about_text">
+        Developed by Gabriele Viglianisi. Please report any problem to vigliag@gmail.com. Source code available at https://github.com/vigliag/LogMyDay
+    </string>
+    <string name="usage_text">
+        This app allows you to associate some data and notes to each day. This data can then be exported in the json format. Some statistics can be seen in the Stats page
+    </string>
+    <string name="help_text">
+        The main page displays the data for a given day, with an editable field for every Field defined in the preferences.
+        \nIf enabled in preferences, you can swipe back to previous days.
+    </string>
 </resources>

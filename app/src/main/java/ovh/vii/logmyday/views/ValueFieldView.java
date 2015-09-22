@@ -1,6 +1,8 @@
 package ovh.vii.logmyday.views;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,5 +58,26 @@ public class ValueFieldView extends LinearLayout implements DiscreteSeekBar.OnPr
 
     public int getValue() {
         return dsb.getProgress();
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("instanceState", super.onSaveInstanceState());
+        bundle.putInt("stateToSave", getValue());
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            setValue(bundle.getInt("stateToSave"));
+            state = bundle.getParcelable("instanceState");
+        }
+
+        super.onRestoreInstanceState(state);
     }
 }

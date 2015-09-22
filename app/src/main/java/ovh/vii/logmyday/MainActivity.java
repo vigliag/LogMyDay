@@ -1,5 +1,6 @@
 package ovh.vii.logmyday;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import ovh.vii.logmyday.activities.FieldManagerActivity;
+import ovh.vii.logmyday.activities.HelpActivity;
 import ovh.vii.logmyday.activities.SettingsActivity;
 import ovh.vii.logmyday.data.Database;
 import ovh.vii.logmyday.data.FileSerialization;
@@ -143,11 +145,22 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            FileSerialization.exportToFile();
-                            Toast.makeText(MainActivity.this, "Records exported in download folder", Toast.LENGTH_LONG).show();
+                            try {
+                                FileSerialization.exportToFile();
+                                Toast.makeText(MainActivity.this, "Records exported in download folder", Toast.LENGTH_LONG).show();
+                            } catch (IOException e) {
+                                Toast.makeText(MainActivity.this, "Something went wrong exporting the records", Toast.LENGTH_LONG).show();
+                            }
+
                         }
                     })
                     .show();
+        }
+
+        if( id == R.id.action_about){
+            Intent i = new Intent(this, HelpActivity.class);
+            startActivity(i);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

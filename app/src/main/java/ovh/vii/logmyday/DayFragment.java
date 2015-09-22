@@ -10,8 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 import ovh.vii.logmyday.data.Database;
@@ -19,14 +22,14 @@ import ovh.vii.logmyday.data.Field;
 import ovh.vii.logmyday.data.Record;
 
 /**
- * Shows the records for a given day passed as param
+ * Shows the records for a given day_string passed as param
  * handles modifying and saving groups of records
  * the actual logic of creating and handling the views for every record is delegated to the FieldController
  */
 public class DayFragment extends Fragment implements View.OnClickListener {
     private static final String DAY_PARAM = "param1";
 
-    private String day;
+    private String day_string;
     private FieldController FC;
     private Button save;
     private Database db;
@@ -56,7 +59,7 @@ public class DayFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            day = getArguments().getString(DAY_PARAM);
+            day_string = getArguments().getString(DAY_PARAM);
         }
         db = new Database();
     }
@@ -69,9 +72,21 @@ public class DayFragment extends Fragment implements View.OnClickListener {
         View layout =  inflater.inflate(R.layout.fragment_day, container, false);
 
         TextView dayDisplay = (TextView) layout.findViewById(R.id.day);
-        dayDisplay.setText("Day " + day);
 
-        Map<Field, Record> recordsToHandle = db.recordsPerFieldForDay(day);
+        String displayableDate = day_string;
+
+        //obtain displayable date
+        try {
+            Date d = Record.dateFormat.parse(day_string);
+            DateFormat df = DateFormat.getDateInstance();
+            displayableDate = df.format(d);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        dayDisplay.setText(displayableDate);
+
+        Map<Field, Record> recordsToHandle = db.recordsPerFieldForDay(day_string);
 
         LinearLayout fieldsContainer = (LinearLayout) layout.findViewById(R.id.container);
 
